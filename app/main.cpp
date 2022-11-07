@@ -31,7 +31,7 @@ int main()
   int ret = std::system("cat ../LICENSE");
   if (0 != ret)
   {
-    std::cerr << ("%s\n", strerror(errno)); //尝试打印出系统错误信息
+    std::cerr << strerror(errno) << std::endl; //尝试打印出系统错误信息
   }
 
   // Bring in the dummy class from the example source,
