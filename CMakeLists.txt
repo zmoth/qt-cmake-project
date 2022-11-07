@@ -12,6 +12,12 @@ cmake_minimum_required(VERSION 3.14)
 # the source. See exampleConfig.h.in for some more details.
 project(CPP_BOILERPLATE VERSION 1.2.3.4 LANGUAGES CXX)
 
+if(MSVC)
+    # 设置MSVC编译编码
+    add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+    add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+endif()
+
 
 # Options: Things you can set via commandline options to cmake (e.g. -DENABLE_LTO=[ON|OFF])
 option(ENABLE_WARNINGS_SETTINGS "Allow target_set_warnings to add flags and defines.

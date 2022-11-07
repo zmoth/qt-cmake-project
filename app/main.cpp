@@ -16,7 +16,8 @@
  * Simple main program that demontrates how access
  * CMake definitions (here the version number) from source code.
  */
-int main() {
+int main()
+{
   std::cout << "C++ Boiler Plate v"
             << PROJECT_VERSION_MAJOR
             << "."
@@ -26,7 +27,12 @@ int main() {
             << "."
             << PROJECT_VERSION_TWEAK
             << std::endl;
-  std::system("cat ../LICENSE");
+
+  int ret = std::system("cat ../LICENSE");
+  if (0 != ret)
+  {
+    std::cerr << ("%s\n", strerror(errno)); //尝试打印出系统错误信息
+  }
 
   // Bring in the dummy class from the example source,
   // just to show that it is accessible from main.cpp.
