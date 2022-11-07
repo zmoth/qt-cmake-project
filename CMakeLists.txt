@@ -1,16 +1,35 @@
-# This file specifies how the project should be built, using CMake.
-# If you are unfamiliar with CMake, don't worry about all the details.
-# The sections you might want to edit are marked as such, and
-# the comments should hopefully make most of it clear.
-#
-# For many purposes, you may not need to change anything about this file.
+cmake_minimum_required(VERSION 3.5)
 
-cmake_minimum_required(VERSION 3.14)
+# 添加版本号
+set(MO_VERSION_MAJOR 0)
+set(MO_VERSION_MINOR 0)
+set(MO_VERSION_PATCH 1)
+set(MO_VERSION  ${MO_VERSION_MAJOR}.${MO_VERSION_MINOR}.${MO_VERSION_PATCH})
 
-# Set project name, version and laguages here. (change as needed)
-# Version numbers are available by including "exampleConfig.h" in
-# the source. See exampleConfig.h.in for some more details.
-project(CPP_BOILERPLATE VERSION 1.2.3.4 LANGUAGES CXX)
+# 工程名称
+project(CXX_DEMO_PROJ VERSION ${MO_VERSION})
+message(STATUS ${PROJECT_NAME} v${MO_VERSION})
+
+#设置输出路径
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib) # 静态库的文件夹位置
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib) # 动态库的文件夹位置
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin) # 可执行软件的文件夹位置
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/lib/Debug)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/lib/Debug)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/bin/Debug)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/lib/Release)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/lib/Release)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/bin/Release)
+
+#这个就是定义各个版本对应的后缀，例如d，debug版本后缀，当然你想定义为其他，	#自己修改这块就可以了。
+SET(CMAKE_DEBUG_POSTFIX "d" CACHE STRING "add a postfix, usually d on windows")
+SET(CMAKE_RELEASE_POSTFIX "" CACHE STRING "add a postfix, usually empty on windows")
+SET(CMAKE_RELWITHDEBINFO_POSTFIX "rd" CACHE STRING "add a postfix, usually empty on windows")
+SET(CMAKE_MINSIZEREL_POSTFIX "s" CACHE STRING "add a postfix, usually empty on windows")
+
+# set(CMAKE_PREFIX_PATH "C:/opt/Qt/5.15.2/msvc2019_64") #需要删除
 
 if(MSVC)
     # 设置MSVC编译编码
@@ -18,70 +37,12 @@ if(MSVC)
     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
 endif()
 
+# add_subdirectory(3rdparty) # 添加第三方库
 
-# Options: Things you can set via commandline options to cmake (e.g. -DENABLE_LTO=[ON|OFF])
-option(ENABLE_WARNINGS_SETTINGS "Allow target_set_warnings to add flags and defines.
-                                 Set this to OFF if you want to provide your own warning parameters." ON)
-option(ENABLE_LTO "Enable link time optimization" ON)
-option(ENABLE_DOCTESTS "Include tests in the library. Setting this to OFF will remove all doctest related code.
-                        Tests in tests/*.cpp will still be enabled." ON)
+# add_subdirectory(libs)
+add_subdirectory(src)
 
-# Include stuff. No change needed.
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
-include(ConfigSafeGuards)
-include(Colors)
-include(CTest)
-include(Doctest)
-include(Documentation)
-include(LTO)
-include(Misc)
-include(Warnings)
 
-# Check for LTO support.
-find_lto(CXX)
-
-# --------------------------------------------------------------------------------
-#                         Locate files (change as needed).
-# --------------------------------------------------------------------------------
-set(SOURCES          # All .cpp files in src/
-    src/example.cpp
-)
-set(TESTFILES        # All .cpp files in tests/
-    tests/main.cpp
-)
-set(LIBRARY_NAME engine)  # Default name for the library built from src/*.cpp (change if you wish)
-
-# --------------------------------------------------------------------------------
-#                            Build! (Change as needed)
-# --------------------------------------------------------------------------------
-# Compile all sources into a library.
-add_library(${LIBRARY_NAME} OBJECT ${SOURCES})
-
-# Lib needs its header files, and users of the library must also see these (PUBLIC). (No change needed)
-target_include_directories(${LIBRARY_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
-
-# There's also (probably) doctests within the library, so we need to see this as well.
-target_link_libraries(${LIBRARY_NAME} PUBLIC doctest)
-
-# Set the compile options you want (change as needed).
-target_set_warnings(${LIBRARY_NAME} ENABLE ALL AS_ERROR ALL DISABLE Annoying)
-# target_compile_options(${LIBRARY_NAME} ... )  # For setting manually.
-
-# Add an executable for the file app/main.cpp.
-# If you add more executables, copy these lines accordingly.
-add_executable(main app/main.cpp)   # Name of exec. and location of file.
-target_link_libraries(main PRIVATE ${LIBRARY_NAME})  # Link the executable to library (if it uses it).
-target_set_warnings(main ENABLE ALL AS_ERROR ALL DISABLE Annoying) # Set warnings (if needed).
-target_enable_lto(main optimized)  # enable link-time-optimization if available for non-debug configurations
-
-# Set the properties you require, e.g. what C++ standard to use. Here applied to library and main (change as needed).
-set_target_properties(
-    ${LIBRARY_NAME} main
-      PROPERTIES
-        CXX_STANDARD 17
-        CXX_STANDARD_REQUIRED YES
-        CXX_EXTENSIONS NO
-)
-
-# Set up tests (see tests/CMakeLists.txt).
-add_subdirectory(tests)
+# PUBLIC    在public后面的库会被Link到你的target中，并且里面的符号也会被导出，提供给第三方使用。
+# PRIVATE   在private后面的库仅被link到你的target中，并且终结掉，第三方不能感知你调了啥库
+# INTERFACE 在interface后面引入的库不会被链接到你的target中，只会导出符号。
