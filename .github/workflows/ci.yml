@@ -49,15 +49,15 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
-        version: ${{ matrix.include.qt_version }}
-        modules: ${{ matrix.include.modules }}
+        version: ${{ matrix.qt_version }}
+        modules: ${{ matrix.modules }}
 
     - name: Setup (Linux)
-      if: startsWith (matrix.include.os, 'ubuntu')
+      if: startsWith (matrix.os, 'ubuntu')
       run: sudo apt-get install libxkbcommon-dev
 
     - name: Setup VS tools (Windows)
-      if: startsWith (matrix.include.os, 'windows')
+      if: startsWith (matrix.os, 'windows')
       uses: egor-tensin/vs-shell@v2
       with:
         arch: x64
