@@ -8,7 +8,7 @@ jobs:
   build-and-test:
 
     name: ${{ matrix.toolchain }}
-    runs-on: ${{ matrix.config.os }}
+    runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
@@ -21,7 +21,7 @@ jobs:
         configuration:
           - Release
 
-        config:
+        include:
           - toolchain: linux-gcc
             os: ubuntu-20.04
             compiler: gcc
@@ -49,15 +49,15 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
-        version: ${{ matrix.config.qt_version }}
-        modules: ${{ matrix.config.modules }}
+        version: ${{ matrix.qt_version }}
+        modules: ${{ matrix.modules }}
 
     - name: Setup (Linux)
-      if: startsWith (matrix.config.os, 'ubuntu')
+      if: startsWith (matrix.os, 'ubuntu')
       run: sudo apt-get install libxkbcommon-dev
 
     - name: Setup VS tools (Windows)
-      if: startsWith (matrix.config.os, 'windows')
+      if: startsWith (matrix.os, 'windows')
       uses: egor-tensin/vs-shell@v2
       with:
         arch: x64
@@ -65,7 +65,7 @@ jobs:
     - name: Configure (${{ matrix.configuration }})
       run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
 
-    - name: Build with ${{ matrix.config.compiler }}
+    - name: Build with ${{ matrix.compiler }}
       run: cmake --build build --config ${{ matrix.configuration }}
 
     # - name: Test
