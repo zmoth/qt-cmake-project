@@ -7,7 +7,7 @@ set(MO_VERSION_PATCH 1)
 set(MO_VERSION  ${MO_VERSION_MAJOR}.${MO_VERSION_MINOR}.${MO_VERSION_PATCH})
 
 # 工程名称
-project(CXX_DEMO_PROJ VERSION ${MO_VERSION})
+project(CXX_DEMO VERSION ${MO_VERSION})
 message(STATUS ${PROJECT_NAME} v${MO_VERSION})
 
 #设置输出路径
@@ -29,8 +29,6 @@ SET(CMAKE_RELEASE_POSTFIX "" CACHE STRING "add a postfix, usually empty on windo
 SET(CMAKE_RELWITHDEBINFO_POSTFIX "rd" CACHE STRING "add a postfix, usually empty on windows")
 SET(CMAKE_MINSIZEREL_POSTFIX "s" CACHE STRING "add a postfix, usually empty on windows")
 
-# set(CMAKE_PREFIX_PATH "C:/opt/Qt/5.15.2/msvc2019_64") #需要删除
-
 if(MSVC)
     # 设置MSVC编译编码
     add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
@@ -39,8 +37,59 @@ endif()
 
 # add_subdirectory(3rdparty) # 添加第三方库
 
-# add_subdirectory(libs)
-add_subdirectory(src)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+#qt
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets) # 识别是Qt6还是Qt5
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+message(STATUS "QT_VERSION_MAJOR : " ${QT_VERSION_MAJOR})
+message(STATUS "QT_DIR : " ${QT_DIR})
+
+file(GLOB_RECURSE SRCS  src/*.cpp src/*.cxx src/*.cc)
+file(GLOB_RECURSE INCS  src/*.hpp src/*.h)
+file(GLOB_RECURSE RES  src/*.qrc src/*.rc src/*.ui)
+
+set(PROJECT_SOURCES ${SRCS} ${INCS} ${RES})
+
+add_executable(${PROJECT_NAME}
+    WIN32
+    ${PROJECT_SOURCES}
+)
+
+# 设置头文件路径
+target_include_directories(${PROJECT_NAME}
+    PRIVATE
+        $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+)
+
+
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+        Qt${QT_VERSION_MAJOR}::Widgets
+)
+
+# Qt设置
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
+)
+
+INSTALL(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION CMAKE_RUNTIME_OUTPUT_DIRECTORY
+    LIBRARY DESTINATION CMAKE_LIBRARY_OUTPUT_DIRECTORY
+    ARCHIVE DESTINATION CMAKE_ARCHIVE_OUTPUT_DIRECTORY
+    BUNDLE  DESTINATION CMAKE_RUNTIME_OUTPUT_DIRECTORY
+)
 
 # PUBLIC    在public后面的库会被Link到你的target中，并且里面的符号也会被导出，提供给第三方使用。
 # PRIVATE   在private后面的库仅被link到你的target中，并且终结掉，第三方不能感知你调了啥库
