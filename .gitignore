@@ -34,5 +34,5 @@
 
 # Build directory
 build/
-
 .vscode/
+CMakeLists.txt.user
