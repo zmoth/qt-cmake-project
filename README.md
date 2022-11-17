@@ -1,5 +1,5 @@
+<h1 align="center" style="text-transform:uppercase;">Title</h1>
 [![CI](https://github.com/QianMoth/qt-cmake-project/actions/workflows/ci.yml/badge.svg)](https://github.com/QianMoth/qt-cmake-project/actions/workflows/ci.yml)
-
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/QianMoth/qt-cmake-project.svg?branch=master)](https://travis-ci.org/QianMoth/qt-cmake-project)
 [![Build status](https://ci.appveyor.com/api/projects/status/g9bh9kjl6ocvsvse/branch/master?svg=true)](https://ci.appveyor.com/project/QianMoth/qt-cmake-project/branch/master)
