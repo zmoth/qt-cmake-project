@@ -1,5 +1,5 @@
-[![CI](https://github.com/QianMoth/qt-cmake-project/actions/workflows/ci.yml/badge.svg)](https://github.com/QianMoth/qt-cmake-project/actions/workflows/ci.yml)
 
+[![CI](https://github.com/QianMoth/qt-cmake-project/actions/workflows/ci.yml/badge.svg)](https://github.com/QianMoth/qt-cmake-project/actions/workflows/ci.yml)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.org/QianMoth/qt-cmake-project.svg?branch=master)](https://travis-ci.org/QianMoth/qt-cmake-project)
 [![Build status](https://ci.appveyor.com/api/projects/status/g9bh9kjl6ocvsvse/branch/master?svg=true)](https://ci.appveyor.com/project/QianMoth/qt-cmake-project/branch/master)
@@ -13,7 +13,17 @@
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/QianMoth/qt-cmake-project.svg)](http://isitmaintained.com/project/QianMoth/qt-cmake-project "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/QianMoth/qt-cmake-project.svg)](http://isitmaintained.com/project/QianMoth/qt-cmake-project "Percentage of issues still open")
 
-# Boiler plate for C++ projects
+<h1 align="center" style="text-transform:uppercase;">Qt Cmake Project</h1>
+
+# Contents
+- [Contents](#contents)
+- [Structure](#structure)
+- [Building](#building)
+- [.gitignore](#gitignore)
+- [Services](#services)
+- [Setup](#setup)
+  - [Using the GitHub template](#using-the-github-template)
+  - [From command line](#from-command-line)
 
 This is a boiler plate for C++ projects. What you get:
 
@@ -26,7 +36,7 @@ This is a boiler plate for C++ projects. What you get:
 
 ![Demo of usage](https://i.imgur.com/foymVfy.gif)
 
-## Structure
+# Structure
 
 ```text
 .
@@ -56,7 +66,7 @@ target_link_libraries(main PRIVATE ${LIBRARY_NAME})  # Link the executable to li
 You can find the example source code that builds the `main` executable in [app/main.cpp](app/main.cpp) under the `Build` section in [CMakeLists.txt](CMakeLists.txt).
 If the executable you made does not use the library in [src/](src), then only the first line is needed.
 
-## Building
+# Building
 
 Build by making a build directory (i.e. `build/`), run `cmake` in that dir, and then use `make` to build the desired target.
 
@@ -72,12 +82,12 @@ Example:
 > make doc       # Generate html documentation.
 ```
 
-## .gitignore
+# .gitignore
 
 The [.gitignore](.gitignore) file is a copy of the [Github C++.gitignore file](https://github.com/github/gitignore/blob/master/C%2B%2B.gitignore),
 with the addition of ignoring the build directory (`build/`).
 
-## Services
+# Services
 
 If the repository is activated with Travis-CI, then unit tests will be built and executed on each commit.
 The same is true if the repository is activated with Appveyor.
@@ -85,13 +95,13 @@ The same is true if the repository is activated with Appveyor.
 If the repository is activated with Coveralls/Codecov, then deployment to Travis will also calculate code coverage and
 upload this to Coveralls.io and/or Codecov.io
 
-## Setup
+# Setup
 
-### Using the GitHub template
+## Using the GitHub template
 
 Click the `Use this template` button to make a new repository from this template.
 
-### From command line
+## From command line
 
 When starting a new project, you probably don't want the history of this repository. To start fresh you can use
 the [setup script](setup.sh) as follows:
