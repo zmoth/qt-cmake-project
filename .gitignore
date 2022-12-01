@@ -1,8 +1,6 @@
-# Build directory
 build/
 .vscode/
 html/
 latex/
-CMakeLists.txt.user
 *.lnk
-
+CMakeLists.txt.user

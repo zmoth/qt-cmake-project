@@ -1,14 +1,23 @@
 cmake_minimum_required(VERSION 3.5)
 
 # 添加版本号
-set(MO_VERSION_MAJOR 0)
-set(MO_VERSION_MINOR 0)
-set(MO_VERSION_PATCH 1)
-set(MO_VERSION  ${MO_VERSION_MAJOR}.${MO_VERSION_MINOR}.${MO_VERSION_PATCH})
+set(PROJECT_VERSION_MAJOR 0) # 主版本号
+set(PROJECT_VERSION_MINOR 1) # 子版本号
+set(PROJECT_VERSION_PATCH 0) # 阶段版本号
+string(TIMESTAMP PROJECT_VERSION_TIME %y%m%d) # 日期版本号
+set(PROJECT_VERSION_ALPHABET "alpha")# 希腊字母版本号
+set(PROJECT_VERSION  ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_TIME})
 
 # 工程名称
-project(CXX_DEMO VERSION ${MO_VERSION})
-message(STATUS ${PROJECT_NAME} v${MO_VERSION})
+project(CXX_DEMO VERSION ${PROJECT_VERSION})
+message(STATUS "${PROJECT_NAME} v${PROJECT_VERSION}")
+
+# 加入一个配置头文件，用于处理 CMake 对源码的设置
+configure_file (
+  "${PROJECT_SOURCE_DIR}/config.h.in"
+  "${PROJECT_BINARY_DIR}/config.h"
+  )
+
 
 #设置输出路径
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib) # 静态库的文件夹位置
@@ -35,6 +44,8 @@ if(MSVC)
     add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
 endif()
 
+include_directories(${PROJECT_BINARY_DIR}) # config.h
+
 # add_subdirectory(3rdparty) # 添加第三方库
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -48,8 +59,7 @@ set(CMAKE_AUTORCC ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets) # 识别是Qt6还是Qt5
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-message(STATUS "QT_VERSION_MAJOR : " ${QT_VERSION_MAJOR})
-message(STATUS "QT_DIR : " ${QT_DIR})
+message(STATUS "QT_VERSION_MAJOR: ${QT_VERSION_MAJOR}; QT_DIR: ${QT_DIR}")
 
 file(GLOB_RECURSE SRCS  src/*.cpp src/*.cxx src/*.cc)
 file(GLOB_RECURSE INCS  src/*.hpp src/*.h)

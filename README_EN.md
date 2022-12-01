@@ -18,8 +18,6 @@ Qt 5.15.2
 
 ## Build
 
-> 不要出现中文路径！
-
 ```bash
 git clone --recurse-submodules git@github.com:QianMoth/qt-cmake-project.git
 cd nodeeditor-p
@@ -33,9 +31,7 @@ cmake --build build --config Release
 cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=Debug
 cmake --build build --config Debug
 ```
-
 # Example
 
 
 # Origin & References
-
