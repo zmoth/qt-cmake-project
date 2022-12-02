@@ -1,23 +1,36 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 # 添加版本号
 set(PROJECT_VERSION_MAJOR 0) # 主版本号
 set(PROJECT_VERSION_MINOR 1) # 子版本号
-set(PROJECT_VERSION_PATCH 0) # 阶段版本号
+set(PROJECT_VERSION_PATCH 1) # 阶段版本号
 string(TIMESTAMP PROJECT_VERSION_TIME %y%m%d) # 日期版本号
 set(PROJECT_VERSION_ALPHABET "alpha")# 希腊字母版本号
 set(PROJECT_VERSION  ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_TIME})
 
 # 工程名称
-project(CXX_DEMO VERSION ${PROJECT_VERSION})
+project(dlldemo VERSION ${PROJECT_VERSION})
 message(STATUS "${PROJECT_NAME} v${PROJECT_VERSION}")
+
+# 判断是否作为第三方库
+get_directory_property(_has_parent PARENT_DIRECTORY)
+if(_has_parent)
+  set(is_root_project OFF)
+else()
+  set(is_root_project ON)
+endif()
+
+set(PROJECT_DEVELOPER_DEFAULTS "${is_root_project}" CACHE BOOL "Turns on default settings for development")
+
+option(BUILD_TESTING "Build tests" "${PROJECT_DEVELOPER_DEFAULTS}")
+option(BUILD_EXAMPLES "Build Examples" "${PROJECT_DEVELOPER_DEFAULTS}")
+option(BUILD_DOCS "Build Documentation" "${PROJECT_DEVELOPER_DEFAULTS}")
 
 # 加入一个配置头文件，用于处理 CMake 对源码的设置
 configure_file (
   "${PROJECT_SOURCE_DIR}/config.h.in"
   "${PROJECT_BINARY_DIR}/config.h"
   )
-
 
 #设置输出路径
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib) # 静态库的文件夹位置
@@ -67,22 +80,35 @@ file(GLOB_RECURSE RES  src/*.qrc src/*.rc src/*.ui)
 
 set(PROJECT_SOURCES ${SRCS} ${INCS} ${RES})
 
-add_executable(${PROJECT_NAME}
-    WIN32
-    ${PROJECT_SOURCES}
-)
+# 制作动态库
+add_library(${PROJECT_NAME} SHARED ${PROJECT_SOURCES})
+
+# 支持动态库和静态库同时存在
+set_target_properties(${PROJECT_NAME} PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 
 # 设置头文件路径
 target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     PRIVATE
-        $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/demo/internal>
 )
-
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
+)
+
+# 编译选项
+target_compile_definitions(${PROJECT_NAME} 
+  PUBLIC
+    PROJECT_DLL_SHARED
+  PRIVATE
+    PROJECT_DLL_EXPORTS
+    # QT_NO_DEBUG_OUTPUT
+    QT_NO_KEYWORDS
 )
 
 # Qt设置
@@ -101,6 +127,6 @@ INSTALL(TARGETS ${PROJECT_NAME}
     BUNDLE  DESTINATION CMAKE_RUNTIME_OUTPUT_DIRECTORY
 )
 
-# PUBLIC    在public后面的库会被Link到你的target中，并且里面的符号也会被导出，提供给第三方使用。
-# PRIVATE   在private后面的库仅被link到你的target中，并且终结掉，第三方不能感知你调了啥库
-# INTERFACE 在interface后面引入的库不会被链接到你的target中，只会导出符号。
+if(BUILD_EXAMPLES)
+  add_subdirectory(examples)
+endif()

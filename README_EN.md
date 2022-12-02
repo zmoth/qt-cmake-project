@@ -1,4 +1,4 @@
-<h1 align="center">CXX DEMO</h1>
+<h1 align="center">QT CMAKE DEMO</h1>
 
 [**中文**](./README.md) | [**English**](./README_EN.md)<br/>
 
