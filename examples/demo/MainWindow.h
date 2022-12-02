@@ -17,10 +17,9 @@ class DebugDemo;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
-public:
+  public:
     MainWindow(QWidget *parent = nullptr);
 
-private:
+  private:
     DebugDemo *_output;
 };

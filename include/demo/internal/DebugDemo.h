@@ -4,7 +4,7 @@
 
 class PROJECT_DLL_PUBLIC DebugDemo
 {
-public:
+  public:
     DebugDemo(/* args */);
     ~DebugDemo();
 
