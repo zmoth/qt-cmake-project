@@ -28,7 +28,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        configuration: Release
         os: [macos-10.15,macos-11.0]
         qt_ver: [5.15.2,6.3.0]
         qt_arch: [clang_64]
@@ -51,9 +50,9 @@ jobs:
         with:
           fetch-depth: 1
       - name: Configure (${{ matrix.configuration }})
-        run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} 
+        run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=Release
       - name: Build 
-        run: cmake --build build --config ${{ matrix.configuration }}
+        run: cmake --build build
       # 打包
       - name: package
         # 拷贝依赖

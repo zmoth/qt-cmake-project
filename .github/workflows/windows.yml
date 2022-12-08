@@ -31,7 +31,6 @@ jobs:
     strategy:
       # 矩阵配置
       matrix:
-        configuration: Release
         include:
           # 5.15.2 参考 https://mirrors.cloud.tencent.com/qt/online/qtsdkrepository/windows_x86/desktop/qt5_5152/
           - qt_ver: 5.15.2          
@@ -64,9 +63,9 @@ jobs:
         with:
           fetch-depth: 1
       - name: Configure (${{ matrix.configuration }})
-        run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} 
+        run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=Release
       - name: Build 
-        run: cmake --build build --config ${{ matrix.configuration }}
+        run: cmake --build build --config Release
       # msvc编译
       - name: msvc-build
         id: build
