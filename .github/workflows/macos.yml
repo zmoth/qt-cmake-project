@@ -82,9 +82,9 @@ jobs:
       - name: package
         # 拷贝依赖
         run: |
-          cd build
+          pwd
           ls build/bin/Release/
-          macdeployqt bin/Release/${{ env.targetName }} -dmg
+          macdeployqt build/bin/Release/${{ env.targetName }} -dmg
 
       # 上传artifacts          
       - uses: actions/upload-artifact@v2
