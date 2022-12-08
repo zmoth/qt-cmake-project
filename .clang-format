@@ -284,6 +284,8 @@ IncludeCategories:
     Priority: 3
     SortPriority: 0
     CaseSensitive: false
+  - Regex: "<[[:alnum:].]+>"
+    Priority: 4
   - Regex: ".*"
     Priority: 1
     SortPriority: 0
@@ -293,7 +295,7 @@ IncludeIsMainSourceRegex: ""
 # 是否缩进 case 标签？
 # -- true - case 不与 switch 对齐
 # -- false - case 和 switch 对齐
-IndentCaseLabels: false
+IndentCaseLabels: true
 # 是否缩进 case 对应的大括号 "{}" ？
 # - false - 块语句和case 标签对齐
 # - true - 块语句在 case 标签后缩进
@@ -420,7 +422,7 @@ SpacesBeforeTrailingComments: 1
 # -- Never - 移除所有空格
 # -- Always - 总是添加空格
 # -- Leave - 至多保留1个空格
-SpacesInAngles: false
+SpacesInAngles: Never
 # 是否在条件语句（if/for/switch/while）中添加空格？
 SpacesInConditionalStatement: false
 # 是否在容器中添加空格？（true\false）

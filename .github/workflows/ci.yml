@@ -45,6 +45,24 @@ jobs:
             qt_version: "5.15.2"
             modules: ""
 
+          - toolchain: linux-gcc
+            os: ubuntu-20.04
+            compiler: gcc
+            qt_version: "6.3.0"
+            modules: "qt5compat"
+
+          - toolchain: macos-clang
+            os: macos-latest
+            compiler: clang
+            qt_version: "6.3.0"
+            modules: "qt5compat"
+
+          - toolchain: windows-msvc
+            os: windows-latest
+            compiler: msvc
+            qt_version: "6.3.0"
+            modules: "qt5compat"
+
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2
