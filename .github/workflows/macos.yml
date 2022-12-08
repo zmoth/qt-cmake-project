@@ -68,12 +68,14 @@ jobs:
       - name: package
         # 拷贝依赖
         run: |
-          macdeployqt bin/Release/${targetName} -qmldir=. -verbose=1 -dmg
+          pwd
+          cd build
+          macdeployqt bin/Release/${targetName}.app -qmldir=. -verbose=1 -dmg
       # 上传artifacts          
       - uses: actions/upload-artifact@v2
         with:
           name: ${{ env.targetName }}_${{ matrix.os }}_${{matrix.qt_ver}}.zip
-          path: bin/Release/${{ env.targetName }}
+          path: bin/Release/${{ env.targetName }}.app
 
       # tag 上传Release
       - name: uploadRelease
