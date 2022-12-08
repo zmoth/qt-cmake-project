@@ -34,21 +34,27 @@ jobs:
     env:
       targetName: exedemo
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
       # macos 11.0 默认环境变了,要指定
       - name: prepare env
         if: ${{ matrix.os == 'macos-11.0' }}
         run: |
           softwareupdate --all --install --force
           sudo xcode-select --print-path
-          sudo xcode-select --switch /Library/Developer/CommandLineTools       
+          sudo xcode-select --switch /Library/Developer/CommandLineTools   
+
+      # 安装Qt
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v3
         with:
           version: ${{ matrix.qt_ver }}
+          modules: ${{ matrix.modules }}
           cached: 'false'
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
+
       - name: Configure (${{ matrix.configuration }})
         run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=Release
       - name: Build 
@@ -63,6 +69,7 @@ jobs:
         with:
           name: ${{ env.targetName }}_${{ matrix.os }}_${{matrix.qt_ver}}.zip
           path: build/bin/release/${{ env.targetName }}.app
+
       # tag 上传Release
       - name: uploadRelease
         if: startsWith(github.event.ref, 'refs/tags/')

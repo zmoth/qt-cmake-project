@@ -36,36 +36,43 @@ jobs:
           - qt_ver: 5.15.2          
             qt_arch: win64_msvc2019_64
             msvc_arch: x64
-            qt_arch_install: msvc2019_64          
+            qt_arch_install: msvc2019_64
+            modules: ""          
           # 6.3.0
           - qt_ver: 6.3.0
             qt_arch: win64_msvc2019_64
             msvc_arch: x64
             qt_arch_install: msvc2019_64
+            modules: "qt5compat"
     env:
       targetName: exedemo.exe
     # 步骤
     steps:
+      # 拉取代码
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
       # 安装Qt
       - name: Install Qt
-        # 使用外部action。这个action专门用来安装Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v3
         with:
-          # Version of Qt to install
           version: ${{ matrix.qt_ver }}
-          # Target platform for build
-          # target: ${{ matrix.qt_target }}
           arch: ${{ matrix.qt_arch }}
+          modules: ${{ matrix.modules }}
           cached: 'false'
-          aqtversion: '==2.0.5'          
-      # 拉取代码
-      - uses: actions/checkout@v2
+
+      - name: Setup VS tools (Windows)
+        uses: egor-tensin/vs-shell@v2
         with:
-          fetch-depth: 1
+          arch: x64
+       
       - name: Configure (${{ matrix.configuration }})
         run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=Release
       - name: Build 
         run: cmake --build build --config Release
+
       # msvc编译
       - name: msvc-build
         id: build
