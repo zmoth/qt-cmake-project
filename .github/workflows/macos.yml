@@ -78,29 +78,28 @@ jobs:
         run: |
           cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DDS_STORE_SCRIPT=ON
           cmake --build build --config ${{ matrix.build_type }} --parallel $(sysctl -n hw.logicalcpu)
-          sudo cmake --install build
 
-      # 打包
-      - name: package
-        # 拷贝依赖
-        run: |
-          pwd
-          ls build/bin/${{ matrix.build_type }}/
-          macdeployqt build/bin/${{ matrix.build_type }}/${{ env.targetName }} -verbose=1 -dmg
+      # # 打包
+      # - name: package
+      #   # 拷贝依赖
+      #   run: |
+      #     pwd
+      #     ls build/bin/${{ matrix.build_type }}/
+      #     macdeployqt build/bin/${{ matrix.build_type }}/${{ env.targetName }} -verbose=1 -dmg
 
-      # 上传artifacts          
-      - uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.targetName }}_${{ matrix.os }}_${{matrix.qt_ver}}.zip
-          path: build/bin/${{ matrix.build_type }}/${{ env.targetName }}
+      # # 上传artifacts          
+      # - uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{ env.targetName }}_${{ matrix.os }}_${{matrix.qt_ver}}.zip
+      #     path: build/bin/${{ matrix.build_type }}/${{ env.targetName }}
 
-      # tag 上传Release
-      - name: upload ${{ matrix.build_type }}
-        if: startsWith(github.event.ref, 'refs/tags/')
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/bin/${{ matrix.build_type }}/${{ env.targetName }}.dmg
-          asset_name: ${{ env.targetName }}_${{ matrix.os }}_${{ matrix.qt_ver }}.dmg
-          tag: ${{ github.ref }}
-          overwrite: true
+      # # tag 上传Release
+      # - name: upload ${{ matrix.build_type }}
+      #   if: startsWith(github.event.ref, 'refs/tags/')
+      #   uses: svenstaro/upload-release-action@v2
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     file: build/bin/${{ matrix.build_type }}/${{ env.targetName }}.dmg
+      #     asset_name: ${{ env.targetName }}_${{ matrix.os }}_${{ matrix.qt_ver }}.dmg
+      #     tag: ${{ github.ref }}
+      #     overwrite: true
