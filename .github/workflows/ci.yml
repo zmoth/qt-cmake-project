@@ -84,11 +84,11 @@ jobs:
       with:
         arch: x64
 
-    - name: Configure (${{ matrix.config.configuration }})
-      run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=${{ matrix.config.configuration }}
+    - name: Configure (${{ matrix.configuration }})
+      run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
 
     - name: Build with ${{ matrix.config.compiler }}
-      run: cmake --build build --config ${{ matrix.config.configuration }}
+      run: cmake --build build --config ${{ matrix.configuration }}
 
     # - name: Test
     #   working-directory: build
