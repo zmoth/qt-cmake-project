@@ -15,6 +15,9 @@ on:
       - 'Doxyfile.in'
       - '.clang-format'
       - '.git*'
+      - '.git*'
+      - '.github/workflows/macos.yml'
+      - '.github/workflows/windows.yml'
   # pull_request时触发workflow
   pull_request:
     paths-ignore:
@@ -23,6 +26,8 @@ on:
     - 'Doxyfile.in'
     - '.clang-format'
     - '.git*'
+    - '.github/workflows/macos.yml'
+    - '.github/workflows/windows.yml'
 jobs:
   build:
     name: Build
@@ -49,7 +54,6 @@ jobs:
         with:
           version: ${{ matrix.qt_ver }}
           modules: ${{ matrix.modules }}
-          cached: 'false'
 
       - name: ubuntu install
         run: sudo apt-get install libxkbcommon-dev
