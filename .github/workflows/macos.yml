@@ -69,7 +69,7 @@ jobs:
         # 拷贝依赖
         run: |
           pwd
-          ls
+          ls build/bin/Release/
           macdeployqt build/bin/Release/${targetName}.app -qmldir=. -verbose=1 -dmg
       # 上传artifacts          
       - uses: actions/upload-artifact@v2
