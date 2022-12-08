@@ -66,18 +66,6 @@ jobs:
       - name: Build 
         run: cmake --build build --config Release
 
-      - name: NameVersion
-        id: NameVersion
-        if: startsWith(github.event.ref, 'refs/tags/')
-        shell: pwsh
-        run: |
-          $systemInfo="${{ matrix.os }}"
-          $productVersion="${{ github.ref }}".substring("refs/tags/v".length)
-          $productName="${{ env.targetName }}-$productVersion-$systemInfo-x64"
-          echo "systemInfo=$systemInfo" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          echo "productVersion=$productVersion" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          echo "productName=$productName" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
       # 打包
       - name: package
         # 拷贝依赖
