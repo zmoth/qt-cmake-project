@@ -1,65 +1,75 @@
 name: CI
 
 on:
+  # push代码时触发workflow
   push:
     branches:
       - master
       - main
     tags:
       - "*"
+    # 忽略README.md
+    paths-ignore:
+      - '*.md'
+      - 'LICENSE'
+      - 'Doxyfile.in'
+      - '.clang-format'
+      - '.git*'
+  # pull_request时触发workflow
   pull_request:
+    paths-ignore:
+    - '*.md'
+    - 'LICENSE'
+    - 'Doxyfile.in'
+    - '.clang-format'
+    - '.git*'
 
 jobs:
   cmake-build:
     strategy:
       fail-fast: false
+      # 矩阵配置
       matrix:
         configuration:
           - Release
         config:
-          - sysname: linux-gcc-qt5.15.2
-            toolchain: linux-gcc
+          - toolchain: linux-gcc
             os: ubuntu-20.04
             compiler: gcc
             qt_version: "5.15.2"
             modules: ""
 
-          - sysname: macos-clang-qt5.15.2
-            toolchain: macos-clang
+          - toolchain: macos-clang
             os: macos-latest
             compiler: clang
             qt_version: "5.15.2"
             modules: ""
 
-          - sysname: windows-msvc-qt5.15.2
-            toolchain: windows-msvc
+          - toolchain: windows-msvc
             os: windows-latest
             compiler: msvc
             qt_version: "5.15.2"
             modules: ""
 
-          - sysname: linux-gcc-qt6.3.0
-            toolchain: linux-gcc
+          - toolchain: linux-gcc
             os: ubuntu-20.04
             compiler: gcc
             qt_version: "6.3.0"
             modules: "qt5compat"
 
-          - sysname: macos-clang-qt6.3.0
-            toolchain: macos-clang
+          - toolchain: macos-clang
             os: macos-latest
             compiler: clang
             qt_version: "6.3.0"
             modules: "qt5compat"
 
-          - sysname: windows-msvc-qt6.3.0
-            toolchain: windows-msvc
+          - toolchain: windows-msvc
             os: windows-latest
             compiler: msvc
             qt_version: "6.3.0"
             modules: "qt5compat"
 
-    name: ${{ matrix.config.sysname }}
+    # 运行平台
     runs-on: ${{ matrix.config.os }}
 
     steps:
@@ -85,27 +95,7 @@ jobs:
         arch: x64
 
     - name: Configure (${{ matrix.configuration }})
-      run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=${{ matrix.configuration }}
+      run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=${{ matrix.configuration }} 
 
     - name: Build with ${{ matrix.config.compiler }}
       run: cmake --build build --config ${{ matrix.configuration }}
-
-    - name: Create App Image
-      if: startsWith (matrix.config.os, 'ubuntu')
-      run: |
-          cmake --install build --prefix=${{ github.workspace }}/build/AppDir/usr/
-          cd build
-          wget --no-verbose "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
-          wget --no-verbose "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage"
-          chmod +x linuxdeploy*.AppImage
-          export OUTPUT=exedemo-x86_64.AppImage
-          export LD_LIBRARY_PATH=AppDir/usr/lib/:$LD_LIBRARY_PATH
-          export DEBUG=1
-          ./linuxdeploy-x86_64.AppImage --appdir AppDir --plugin qt --output appimage
-
-    - name: Upload AppImage
-      if: startsWith (matrix.config.os, 'ubuntu')
-      uses: actions/upload-artifact@v2
-      with:
-        name: exedemo-Linux-Qt${{ matrix.config.qt_version }}-cmake-AppImage
-        path: ${{ github.workspace }}/build/exedemo-x86_64.AppImage
