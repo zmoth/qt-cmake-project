@@ -60,7 +60,7 @@ jobs:
             modules: "qt5compat"
 
     name: ${{ matrix.config.sysname }}
-    runs-on: ${{ matrix.config.sysname }}
+    runs-on: ${{ matrix.config.os }}
 
     steps:
     - name: Checkout Code
