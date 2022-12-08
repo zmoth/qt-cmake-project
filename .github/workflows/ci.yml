@@ -12,8 +12,8 @@ on:
 jobs:
   build-and-test:
 
-    name: ${{ matrix.toolchain }}
-    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.name }}
 
     strategy:
       fail-fast: false
@@ -27,37 +27,43 @@ jobs:
           - Release
 
         include:
-          - toolchain: linux-gcc
+          - name: linux-gcc-qt5.15.2
+            toolchain: linux-gcc
             os: ubuntu-20.04
             compiler: gcc
             qt_version: "5.15.2"
             modules: ""
 
-          - toolchain: macos-clang
+          - name: macos-clang-qt5.15.2
+            toolchain: macos-clang
             os: macos-latest
             compiler: clang
             qt_version: "5.15.2"
             modules: ""
 
-          - toolchain: windows-msvc
+          - name: windows-msvc-qt5.15.2
+            toolchain: windows-msvc
             os: windows-latest
             compiler: msvc
             qt_version: "5.15.2"
             modules: ""
 
-          - toolchain: linux-gcc
+          - name: linux-gcc-qt6.3.0
+            toolchain: linux-gcc
             os: ubuntu-20.04
             compiler: gcc
             qt_version: "6.3.0"
             modules: "qt5compat"
 
-          - toolchain: macos-clang
+          - name: macos-clang-qt6.3.0
+            toolchain: macos-clang
             os: macos-latest
             compiler: clang
             qt_version: "6.3.0"
             modules: "qt5compat"
 
-          - toolchain: windows-msvc
+          - name: windows-msvc-qt6.3.0
+            toolchain: windows-msvc
             os: windows-latest
             compiler: msvc
             qt_version: "6.3.0"
