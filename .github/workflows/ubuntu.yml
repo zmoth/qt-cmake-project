@@ -30,6 +30,7 @@ on:
     - '.github/workflows/macos.yml'
     - '.github/workflows/windows.yml'
     - 'scripts/windows*'
+
 jobs:
   build:
     name: Build
@@ -39,11 +40,15 @@ jobs:
         os: [ubuntu-20.04]
         qt_ver: [5.15.2,6.3.0]
         qt_arch: [gcc_64]
+        build_type: [Release]
         exclude: 
           # Qt6.2.2 need GLIBC_2.28, ubuntu 18.04 have not.
           - os: ubuntu-18.04
             qt_ver: 6.2.2
             qt_arch: gcc_64
+    env:
+      targetName: exedemo
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -61,6 +66,6 @@ jobs:
         run: sudo apt-get install libxkbcommon-dev
 
       - name: Configure (${{ matrix.configuration }})
-        run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=Release
+        run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
       - name: Build 
         run: cmake --build build
