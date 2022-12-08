@@ -16,6 +16,7 @@ on:
       - '.git*'
       - '.github/workflows/ubuntu.yml'
       - '.github/workflows/windows.yml'
+      - 'scripts/windows*'
   # pull_request时触发workflow
   pull_request:
     paths-ignore:
@@ -26,6 +27,7 @@ on:
     - '.git*'
     - '.github/workflows/ubuntu.yml'
     - '.github/workflows/windows.yml'
+    - 'scripts/windows*'
 jobs:
   build:
     name: Build
@@ -66,12 +68,12 @@ jobs:
       - name: package
         # 拷贝依赖
         run: |
-          macdeployqt ../../bin/Release/${targetName}.app -qmldir=. -verbose=1 -dmg
+          macdeployqt bin/Release/${targetName} -qmldir=. -verbose=1 -dmg
       # 上传artifacts          
       - uses: actions/upload-artifact@v2
         with:
           name: ${{ env.targetName }}_${{ matrix.os }}_${{matrix.qt_ver}}.zip
-          path: ../../bin/Release/${{ env.targetName }}.app
+          path: bin/Release/${{ env.targetName }}
 
       # tag 上传Release
       - name: uploadRelease
@@ -79,7 +81,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ../../bin/Release/${{ env.targetName }}.dmg
+          file: bin/Release/${{ env.targetName }}.dmg
           asset_name: ${{ env.targetName }}_${{ matrix.os }}_${{ matrix.qt_ver }}.dmg
           tag: ${{ github.ref }}
           overwrite: true
