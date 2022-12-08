@@ -83,7 +83,8 @@ jobs:
         # 拷贝依赖
         run: |
           cd build
-          macdeployqt bin/Release/${{ env.targetName }}.app -dmg
+          ls build/bin/Release/
+          macdeployqt bin/Release/${{ env.targetName }} -dmg
 
       # 上传artifacts          
       - uses: actions/upload-artifact@v2
