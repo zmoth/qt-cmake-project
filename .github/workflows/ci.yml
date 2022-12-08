@@ -90,8 +90,22 @@ jobs:
     - name: Build with ${{ matrix.config.compiler }}
       run: cmake --build build --config ${{ matrix.configuration }}
 
-    # - name: Test
-    #   working-directory: build
-    #   env:
-    #     CTEST_OUTPUT_ON_FAILURE: 1
-    #   run: ctest -C ${{ matrix.configuration }}
+    - name: Create App Image
+      if: startsWith (matrix.config.os, 'ubuntu')
+      run: |
+          cmake --install build --prefix=${{ github.workspace }}/build/AppDir/usr/
+          cd build
+          wget --no-verbose "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
+          wget --no-verbose "https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage"
+          chmod +x linuxdeploy*.AppImage
+          export OUTPUT=exedemo-x86_64.AppImage
+          export LD_LIBRARY_PATH=AppDir/usr/lib/:$LD_LIBRARY_PATH
+          export DEBUG=1
+          ./linuxdeploy-x86_64.AppImage --appdir AppDir --plugin qt --output appimage
+
+    - name: Upload AppImage
+      if: startsWith (matrix.config.os, 'ubuntu')
+      uses: actions/upload-artifact@v2
+      with:
+        name: exedemo-Linux-Qt${{ matrix.config.qt_version }}-cmake-AppImage
+        path: ${{ github.workspace }}/build/exedemo-x86_64.AppImage
