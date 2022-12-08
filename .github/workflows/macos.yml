@@ -61,17 +61,17 @@ jobs:
       - name: Configure (${{ matrix.configuration }})
         run: cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=Release
       - name: Build 
-        run: cmake --build build
+        run: cmake --build build --config Release
       # 打包
       - name: package
         # 拷贝依赖
         run: |
-          macdeployqt bin/Release/${targetName}.app -qmldir=. -verbose=1 -dmg
+          macdeployqt ../../bin/Release/${targetName}.app -qmldir=. -verbose=1 -dmg
       # 上传artifacts          
       - uses: actions/upload-artifact@v2
         with:
           name: ${{ env.targetName }}_${{ matrix.os }}_${{matrix.qt_ver}}.zip
-          path: bin/Release/${{ env.targetName }}.app
+          path: ../../bin/Release/${{ env.targetName }}.app
 
       # tag 上传Release
       - name: uploadRelease
@@ -79,7 +79,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: bin/Release/${{ env.targetName }}.dmg
+          file: ../../bin/Release/${{ env.targetName }}.dmg
           asset_name: ${{ env.targetName }}_${{ matrix.os }}_${{ matrix.qt_ver }}.dmg
           tag: ${{ github.ref }}
           overwrite: true
