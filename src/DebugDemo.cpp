@@ -10,8 +10,7 @@ DebugDemo::~DebugDemo()
 {
 }
 
-void DebugDemo::output()
-{
+void DebugDemo::output() {
     qDebug();
     qInfo();
     qWarning();
