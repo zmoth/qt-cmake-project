@@ -2,13 +2,9 @@
 
 #include <QDebug>
 
-DebugDemo::DebugDemo(/* args */)
-{
-}
+DebugDemo::DebugDemo(/* args */) {}
 
-DebugDemo::~DebugDemo()
-{
-}
+DebugDemo::~DebugDemo() {}
 
 void DebugDemo::output()
 {

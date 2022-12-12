@@ -29,7 +29,7 @@ AlignConsecutiveDeclarations: None
 # -- DontAlign - 不进行对齐
 # -- Left - 反斜杠靠左对齐
 # -- Right - 反斜杠靠右对齐
-AlignEscapedNewlines: Left
+AlignEscapedNewlines: Right
 # 二元、三元表达式的对齐方式（当表达式需要占用多行时）
 # -- DontAlign - 不进行对齐
 # -- Align - 从操作符开始对齐
@@ -71,7 +71,7 @@ AllowShortCaseLabelsOnASingleLine: false
 # -- Empty - 只把空的函数放在同一行
 # -- Inline - 把类内的内联函数放在同一行，全局的空函数不放在同一行
 # -- All - 都允许放在同一行
-AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortFunctionsOnASingleLine: Inline
 # 允许短的 lambda 语句放在同一行？
 # -- None - 不把短的 lambda 语句放在同一行
 # -- Empty - 只把空的lambda 语句放在同一行
