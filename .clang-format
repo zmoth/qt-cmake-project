@@ -1,11 +1,16 @@
 ---
 Language: Cpp
+
+# 是否禁用格式化？（true\false）
+DisableFormat: false
+
 # 访问说明符(public、private等)的偏移
 AccessModifierOffset: -2
 
 # 开括号后的对齐（开圆括号、尖括号、方括号），
 # 对齐方式有：Align, DontAlign, AlwaysBreak(总是在开括号后换行)
 AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Right
 
 ##################################################
 # 对齐方式之 AlignConsecutiveStyle
@@ -71,7 +76,7 @@ AllowShortCaseLabelsOnASingleLine: false
 # -- Empty - 只把空的函数放在同一行
 # -- Inline - 把类内的内联函数放在同一行，全局的空函数不放在同一行
 # -- All - 都允许放在同一行
-AllowShortFunctionsOnASingleLine: Inline
+AllowShortFunctionsOnASingleLine: All
 # 允许短的 lambda 语句放在同一行？
 # -- None - 不把短的 lambda 语句放在同一行
 # -- Empty - 只把空的lambda 语句放在同一行
@@ -240,8 +245,6 @@ DeriveLineEnding: true
 # -- true - 自动分析并使用指针的对齐方式，若无法分析，则使用 @ref PointerAlignment
 # -- false - 不自动分析
 DerivePointerAlignment: false
-# 是否禁用格式化？（true\false）
-DisableFormat: false
 # 访问权限控制符（public\protected\private等）后方的空行规则
 # -- Never - 移除所有空行
 # -- Leave - 保留所有空行，受 @ref MaxEmptyLinesToKeep 限制
@@ -364,13 +367,18 @@ PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 60
 PenaltyIndentedWhitespace: 0
 
-# 指针（*和&）的对齐规则
+# 指针（*）的对齐规则
 # -- Left - * 靠近左侧
 # -- Right - * 靠近右侧
 # -- Middle - * 放在中间
 # NOTE : 在 @ref SpaceAroundPointerQualifiers 为 Default，
 # 且 @ref DerivePointerAlignment 失效后启用
 PointerAlignment: Right
+# & 的对齐规则
+# -- Left - & 靠近左侧
+# -- Right - & 靠近右侧
+# -- Middle - & 放在中间
+ReferenceAlignment: Right
 # 是否重排注释？（true\false）
 ReflowComments: true
 # java 中静态 import 的排序规则

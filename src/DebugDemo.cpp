@@ -1,10 +1,6 @@
 #include "DebugDemo.h"
 
-#include <QDebug>
-
 DebugDemo::DebugDemo(/* args */) {}
-
-DebugDemo::~DebugDemo() {}
 
 void DebugDemo::output()
 {

@@ -23,7 +23,10 @@ file(GLOB_RECURSE RESOURCES *.qrc *.rc *.ui)
 set(PROJECT_SOURCES ${CPP_SOURCE_FILES} ${CPP_INCLUDE_FILES} ${RESOURCES})
 
 # 制作可执行文件
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+add_executable(${PROJECT_NAME}
+    WIN32 # console
+    ${PROJECT_SOURCES}
+)
 
 # target_include_directories(${PROJECT_NAME}
 # PUBLIC
