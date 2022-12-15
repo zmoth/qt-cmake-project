@@ -30,6 +30,8 @@ AlignConsecutiveBitFields: Consecutive
 # 连续声明时，变量名的对齐方式（@ref AlignConsecutiveStyle）
 AlignConsecutiveDeclarations: None
 
+PackConstructorInitializers: NextLine
+
 # 反斜杆(\)换行的对齐方式
 # -- DontAlign - 不进行对齐
 # -- Left - 反斜杠靠左对齐
@@ -47,7 +49,7 @@ AlignTrailingComments: true
 # 当函数调用和参数无法放在同一行时，是否将参数全部放在下一行
 # -- true - 全部放在下一行
 # -- false - 不全部放在下一行
-AllowAllArgumentsOnNextLine: true
+AllowAllArgumentsOnNextLine: false
 # 当构造函数的成员变量初始化无法放在同一行时，是否将成员变量的初始化放在下一行？
 # -- true - 全部放在下一行
 # -- false - 不全部放在下一行
@@ -56,7 +58,7 @@ AllowAllConstructorInitializersOnNextLine: true
 # 当函数声明和参数无法放在同一行时，是否将所有参数放在下一行？
 # -- true - 所有参数放在下一行
 # -- false - 不全部放在下一行
-AllowAllParametersOfDeclarationOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: false
 # 是否允许短的枚举放在同一行？
 # -- true - 允许放在同一行
 # -- false - 不允许放在同一行
@@ -121,11 +123,11 @@ AttributeMacros:
 # 函数调用时，参数的放置规则
 # -- false - 参数要么放在同一行，要么每个参数占用一行
 # -- true - 不做强制要求
-BinPackArguments: true
+BinPackArguments: false
 # 函数声明、定义时，参数的放置规则
 # -- false - 参数要么放在同一行，要么每个参数占用一行
 # -- true - 不做强制要求
-BinPackParameters: true
+BinPackParameters: false
 
 # 大括号放置风格
 # -- Attach - 大括号紧随前方内容，放在同一行
