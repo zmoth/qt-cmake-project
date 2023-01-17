@@ -1,17 +1,12 @@
 ---
 Language: Cpp
 
-# 是否禁用格式化？（true\false）
-DisableFormat: false
-
 # 访问说明符(public、private等)的偏移
 AccessModifierOffset: -2
-
 # 开括号后的对齐（开圆括号、尖括号、方括号），
 # 对齐方式有：Align, DontAlign, AlwaysBreak(总是在开括号后换行)
 AlignAfterOpenBracket: Align
 AlignArrayOfStructures: Right
-
 ##################################################
 # 对齐方式之 AlignConsecutiveStyle
 # 连续相同操作时的对齐方式
@@ -193,6 +188,7 @@ BraceWrapping:
 # -- NonAssignment - 除赋值操作符外，其它操作符位于换行后的头部
 # -- All - 所有操作符放在换行后的头部
 BreakBeforeBinaryOperators: None
+BreakBeforeBraces: Custom
 # 是否在 concept 声明前换行？（true\false）
 BreakBeforeConceptDeclarations: true
 # ？？ 未找到介绍
@@ -247,6 +243,8 @@ DeriveLineEnding: true
 # -- true - 自动分析并使用指针的对齐方式，若无法分析，则使用 @ref PointerAlignment
 # -- false - 不自动分析
 DerivePointerAlignment: false
+# 是否禁用格式化？（true\false）
+DisableFormat: false
 # 访问权限控制符（public\protected\private等）后方的空行规则
 # -- Never - 移除所有空行
 # -- Leave - 保留所有空行，受 @ref MaxEmptyLinesToKeep 限制
@@ -359,14 +357,14 @@ ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: true
 
 # ？？惩罚？？
-PenaltyBreakAssignment: 2
-PenaltyBreakBeforeFirstCallParameter: 19
-PenaltyBreakComment: 300
-PenaltyBreakFirstLessLess: 120
-PenaltyBreakString: 1000
+PenaltyBreakAssignment: 150
+PenaltyBreakBeforeFirstCallParameter: 300
+PenaltyBreakComment: 500
+PenaltyBreakFirstLessLess: 400
+PenaltyBreakString: 600
 PenaltyBreakTemplateDeclaration: 10
-PenaltyExcessCharacter: 1000000
-PenaltyReturnTypeOnItsOwnLine: 60
+PenaltyExcessCharacter: 50
+PenaltyReturnTypeOnItsOwnLine: 300
 PenaltyIndentedWhitespace: 0
 
 # 指针（*）的对齐规则
@@ -392,7 +390,7 @@ SortIncludes: true
 # 是否排序所有 using 声明？（true\false）
 SortUsingDeclarations: true
 # 是否在 C 类型的强制转换后加空格？（true\false）
-SpaceAfterCStyleCast: false
+SpaceAfterCStyleCast: true
 # 是否在逻辑取反（!）后加空格？（true\false）
 SpaceAfterLogicalNot: false
 # 是否在 template 关键字后加空格？（true\false）
@@ -480,4 +478,3 @@ WhitespaceSensitiveMacros:
   - NS_SWIFT_NAME
   - CF_SWIFT_NAME
 ---
-

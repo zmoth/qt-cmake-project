@@ -1,4 +1,4 @@
-#include "DebugDemo.h"
+#include "DebugDemo.hpp"
 
 DebugDemo::DebugDemo(/* args */) {}
 
