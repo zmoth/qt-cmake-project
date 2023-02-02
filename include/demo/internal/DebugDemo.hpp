@@ -1,8 +1,11 @@
 #pragma once
 
+#include <QDebug>
+
 #include "Export.hpp"
 
-#include <QDebug>
+namespace Demo
+{
 
 class PROJECT_DLL_PUBLIC DebugDemo
 {
@@ -13,3 +16,5 @@ class PROJECT_DLL_PUBLIC DebugDemo
 
     void output();
 };
+
+}  // namespace Demo

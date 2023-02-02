@@ -2,7 +2,10 @@
 
 #include <QMainWindow>
 
+namespace Demo
+{
 class DebugDemo;
+}
 
 class MainWindow : public QMainWindow
 {
@@ -11,5 +14,5 @@ class MainWindow : public QMainWindow
     MainWindow(QWidget *parent = nullptr);
 
   private:
-    DebugDemo *_output;
+    Demo::DebugDemo *_output;
 };

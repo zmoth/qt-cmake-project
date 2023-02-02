@@ -1,5 +1,8 @@
 #include "DebugDemo.hpp"
 
+namespace Demo
+{
+
 DebugDemo::DebugDemo(/* args */) {}
 
 void DebugDemo::output()
@@ -10,3 +13,5 @@ void DebugDemo::output()
     qCritical();
     // qFatal("fatal");
 }
+
+}  // namespace Demo

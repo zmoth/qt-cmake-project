@@ -1,7 +1,7 @@
+#include <QApplication>
+
 #include "MainWindow.hpp"
 #include "config.h"
-
-#include <QApplication>
 
 int main(int argc, char *argv[])
 {
@@ -10,13 +10,13 @@ int main(int argc, char *argv[])
         "[%{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}C%{"
         "endif}%{if-fatal}F%{endif}]: %{message}\t| (%{function}) [%{file}:%{line}]");
 
-    QApplication::setOrganizationName("moth"); // 此属性保存编写此应用程序的组织的名称
-    QApplication::setApplicationName(PROJECT_NAME);           // 程序名
-    QGuiApplication::setApplicationDisplayName(PROJECT_NAME); // 程序名
-    QGuiApplication::setApplicationVersion(PROJECT_VER);      // 程序版本
+    QApplication::setOrganizationName("moth");  // 此属性保存编写此应用程序的组织的名称
+    QApplication::setApplicationName(PROJECT_NAME);            // 程序名
+    QGuiApplication::setApplicationDisplayName(PROJECT_NAME);  // 程序名
+    QGuiApplication::setApplicationVersion(PROJECT_VER);       // 程序版本
 #ifdef Q_OS_UNIX
     // Unix doesn't provide an application version by default
-    QGuiApplication::setApplicationVersion(PROJECT_VER); // 程序版本
+    QGuiApplication::setApplicationVersion(PROJECT_VER);  // 程序版本
 #endif
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     qInfo("Arguments: %s", qUtf8Printable(app.arguments().join(' ')));
     qInfo("=============================");
 
-    app.setWindowIcon(QIcon(":/icon.ico")); // 给app添加图标
+    app.setWindowIcon(QIcon(":/icon.ico"));  // 给app添加图标
     MainWindow w;
     w.show();
     return app.exec();

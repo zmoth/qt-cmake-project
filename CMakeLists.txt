@@ -6,9 +6,7 @@ set(PROJECT_VERSION_MINOR 1) # 子版本号
 set(PROJECT_VERSION_PATCH 1) # 阶段版本号
 string(TIMESTAMP PROJECT_VERSION_TIME %y%m%d) # 日期版本号
 set(PROJECT_VERSION_ALPHABET "alpha") # 希腊字母版本号
-set(PROJECT_VERSION
-    ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_TIME}
-)
+set(PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}.${PROJECT_VERSION_TIME})
 
 # 工程名称
 project(dlldemo VERSION ${PROJECT_VERSION})
@@ -32,8 +30,7 @@ option(BUILD_DOCS "Build Documentation" "${PROJECT_DEVELOPER_DEFAULTS}")
 option(BUILD_DEBUG_POSTFIX_D "Append d suffix to debug libraries" ON)
 
 # 加入一个配置头文件，用于处理 CMake 对源码的设置
-configure_file("${PROJECT_SOURCE_DIR}/config.h.in"
-               "${PROJECT_BINARY_DIR}/config.h")
+configure_file("${PROJECT_SOURCE_DIR}/config.h.in" "${PROJECT_BINARY_DIR}/config.h")
 
 # 设置输出路径
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib) # 静态库的文件夹位置
@@ -72,9 +69,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 message(STATUS "QT_VERSION: ${QT_VERSION}; QT_DIR: ${QT_DIR}")
 
 if(${QT_VERSION} VERSION_LESS 5.15.2)
-  message(
-    FATAL_ERROR
-      "Requires qt version >= 5.15.2, Your current version is ${QT_VERSION}")
+  message(FATAL_ERROR "Requires qt version >= 5.15.2, Your current version is ${QT_VERSION}")
 endif()
 
 file(GLOB_RECURSE SRCS src/*.cpp src/*.cxx src/*.cc)
@@ -92,8 +87,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 # 设置头文件路径
 target_include_directories(
   ${PROJECT_NAME}
-  PUBLIC $<INSTALL_INTERFACE:include>
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  PUBLIC $<INSTALL_INTERFACE:include> $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/demo/internal>)
 
@@ -109,21 +103,12 @@ target_compile_definitions(
 
 target_compile_options(
   ${PROJECT_NAME}
-  PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/W4
-          /wd4127
-          /EHsc
-          /utf-8>
-          $<$<C_COMPILER_ID:MSVC>:/utf-8>
-          $<$<CXX_COMPILER_ID:GNU>:-Wall
-          -Wextra>
-          $<$<CXX_COMPILER_ID:AppleClang>:-Wall
-          -Wextra
-          -Werror>)
+  PRIVATE $<$<CXX_COMPILER_ID:MSVC>:/W4 /wd4127 /EHsc /utf-8> $<$<C_COMPILER_ID:MSVC>:/utf-8>
+          $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra> $<$<CXX_COMPILER_ID:AppleClang>:-Wall -Wextra -Werror>)
 
 if(NOT "${CMAKE_CXX_SIMULATE_ID}" STREQUAL "MSVC")
   # Clang-Cl on MSVC identifies as "Clang" but behaves more like MSVC:
-  target_compile_options(${PROJECT_NAME}
-                         PRIVATE $<$<CXX_COMPILER_ID:Clang>:-Wall -Wextra>)
+  target_compile_options(${PROJECT_NAME} PRIVATE $<$<CXX_COMPILER_ID:Clang>:-Wall -Wextra>)
 endif()
 
 install(
