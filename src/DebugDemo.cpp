@@ -1,7 +1,6 @@
 #include "DebugDemo.hpp"
 
-namespace Demo
-{
+namespace Demo {
 
 DebugDemo::DebugDemo(/* args */) {}
 

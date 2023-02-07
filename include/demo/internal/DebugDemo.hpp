@@ -4,8 +4,7 @@
 
 #include "Export.hpp"
 
-namespace Demo
-{
+namespace Demo {
 
 class PROJECT_DLL_PUBLIC DebugDemo
 {
