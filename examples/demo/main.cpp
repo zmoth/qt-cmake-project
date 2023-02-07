@@ -28,8 +28,7 @@ int main(int argc, char *argv[])
 
     // Log some debug info
     qInfo("=============================");
-    qInfo("%s v%s",
-          qUtf8Printable(QApplication::applicationDisplayName()),
+    qInfo("%s v%s", qUtf8Printable(QApplication::applicationDisplayName()),
           qUtf8Printable(QApplication::applicationVersion()));
     qInfo("Build Date/Time: %s %s", __DATE__, __TIME__);
     qInfo("Qt: %s", qVersion());

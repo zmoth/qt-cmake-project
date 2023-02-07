@@ -2,8 +2,7 @@
 
 #include <QMainWindow>
 
-namespace Demo
-{
+namespace Demo {
 class DebugDemo;
 }
 
