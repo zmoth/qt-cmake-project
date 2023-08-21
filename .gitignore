@@ -1,7 +1,11 @@
-build*/
+/[Bb]uild*/
+
 .vscode/
 .vs/
+.DS_store
+
 html/
 latex/
+
 *.lnk
 CMakeLists.txt.user
