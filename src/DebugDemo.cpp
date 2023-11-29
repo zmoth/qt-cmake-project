@@ -1,16 +1,21 @@
-#include "DebugDemo.hpp"
+#include "DebugDemo.h"
+
+#include <QDebug>
 
 namespace Demo {
 
-DebugDemo::DebugDemo(/* args */) {}
+DebugDemo::~DebugDemo()
+{
+    qDebug();
+}
 
 void DebugDemo::output()
 {
-    qDebug();
-    qInfo();
-    qWarning();
-    qCritical();
-    // qFatal("fatal");
+    qDebug("Debug");
+    qInfo("Info");
+    qWarning("Warning");
+    qCritical("Critical");
+    // qFatal("Fatal");
 }
 
 }  // namespace Demo
