@@ -22,8 +22,8 @@ class KNOCK_EXPORT Knock : public QObject
     /// @brief 设置计数值
     /// @param[in] num
     void set_num(int num);
-    /// @brief +1
-    void num_Knock();
+    /// @brief +1 +1 +1 +1
+    void knock();
 
   Q_SIGNALS:
     /// @brief 计数值改变

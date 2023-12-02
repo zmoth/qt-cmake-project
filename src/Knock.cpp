@@ -15,7 +15,7 @@ void Knock::set_num(int num)
     Q_EMIT num_changed(_num);
 }
 
-void Knock::num_Knock()
+void Knock::knock()
 {
     _num++;
     Q_EMIT num_changed(_num);

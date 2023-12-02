@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     layout->addWidget(btn, 0, Qt::AlignCenter);
     connect(c, &knock::Knock::num_changed, btn, [btn](int num) { btn->setText("功德: " + QString::number(num)); });
     c->set_num(0);
-    connect(btn, &QPushButton::clicked, c, &knock::Knock::num_Knock);
+    connect(btn, &QPushButton::clicked, c, &knock::Knock::knock);
 
     // 版本&系统信息
     QString str("<h1>" + qAppName() + " " + qApp->applicationVersion() + "</h1>");
