@@ -1,7 +1,21 @@
-build*/
-.vscode/
+/*[Bb]uild*
+
+# clangd
+.cache
+
+# JetBrains
+.idea/
+
+# Visual Studio
 .vs/
-html/
-latex/
-*.lnk
-CMakeLists.txt.user
+
+# Visual Studio Code
+.vscode/*
+!.vscode/launch.json
+
+# QtCreator
+*.user
+*.user.*
+
+# MacOS
+.DS_Store

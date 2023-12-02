@@ -29,7 +29,7 @@ set(PROJECT_HOMEPAGE_URL "https://zmoth.top")
 # 配置工程信息
 #
 project(
-  dlldemo
+  knock
   VERSION ${PROJECT_VERSION}
   DESCRIPTION ${PROJECT_DESCRIPTION}
   HOMEPAGE_URL ${PROJECT_HOMEPAGE_URL}
@@ -96,12 +96,14 @@ message(STATUS "[${PROJECT_NAME}] 可执行文件的文件夹位置: ${CMAKE_RUN
 #
 # ########### 构建 ###########
 #
+
+# Qt
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets) # 识别是Qt6还是Qt5
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-message(STATUS "QT_VERSION: ${QT_VERSION}; QT_DIR: ${QT_DIR}")
+message(STATUS "[${PROJECT_NAME}] QT_VERSION: ${QT_VERSION}; QT_DIR: ${QT_DIR}")
 
 if(${QT_VERSION} VERSION_LESS 5.11.0)
-  message(FATAL_ERROR "Requires qt version >= 5.11.0, Your current version is ${QT_VERSION}")
+  message(FATAL_ERROR "[${PROJECT_NAME}] Requires qt version >= 5.11.0, Your current version is ${QT_VERSION}")
 endif()
 
 if(${${PROJECT_NAME}_BUILD_POLICY} STREQUAL "SHARED")
@@ -112,15 +114,6 @@ elseif(${${PROJECT_NAME}_BUILD_POLICY} STREQUAL "OBJECT")
   add_library(${PROJECT_NAME} OBJECT) # 通过代码编译
 else()
   add_library(${PROJECT_NAME})
-endif()
-
-add_subdirectory(src) # 添加源文件
-
-if(${MSVC})
-  target_sources(
-    ${PROJECT_NAME}
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/resources/win.rc
-  )
 endif()
 
 # 添加配置头文件，将CMake中的版本等信息转换为头文件
@@ -136,6 +129,21 @@ generate_export_header(
   EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/include/Export.h"
 )
 
+add_subdirectory(src) # 添加源文件
+
+file(GLOB_RECURSE INCS ${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}/internal/*.h)
+target_sources(
+  ${PROJECT_NAME}
+  PRIVATE ${INCS}
+)
+
+if(${MSVC})
+  target_sources(
+    ${PROJECT_NAME}
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/resources/win.rc
+  )
+endif()
+
 # 头文件路径
 target_include_directories(
   ${PROJECT_NAME}
@@ -147,7 +155,7 @@ target_include_directories(
   # 所有头文件都希望能够直接调用到
   PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-  PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/demo/internal>
+  PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/${PROJECT_NAME}/internal>
 )
 
 target_link_libraries(

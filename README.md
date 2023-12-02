@@ -1,35 +1,7 @@
-<h1 align="center">QT CMAKE DEMO</h1>
+# QT CMAKE DEMO
 
-<!-- 目录 -->
-# Content
-- [Content](#content)
-- [Build \& Install](#build--install)
-  - [Dependencies](#dependencies)
-  - [Build](#build)
-- [Example](#example)
-- [Origin \& References](#origin--references)
+这是基于 Qt 的 C++项目工程模板。用于制作库文件。
 
-# Build & Install
-## Dependencies
+这也是一个点击就能增加功德的利器。
 
-Qt >= 5.15.2
-
-## Build
-
-```bash
-git clone --recurse-submodules git@github.com:QianMoth/qt-cmake-project.git
-cd nodeeditor-p
-mkdir build
-
-# Release
-cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=Release
-cmake --build build --config Release
-
-# Debug
-cmake -S . -Bbuild -DCMAKE_BUILD_TYPE=Debug
-cmake --build build --config Debug
-```
-# Example
-
-
-# Origin & References
+![WoodenFish](./docs/WoodenFish.png)
